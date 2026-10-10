@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,10 +14,16 @@
     <div id="game-container"></div>
     <script>
         window.EJS_player = '#game-container';
-        window.EJS_gameUrl = 'starforce.gb'; // Points to your ROM
         window.EJS_core = 'gb';
+        
+        // FIXED: Pointed to your exact filename on GitHub
+        window.EJS_gameUrl = 'starforce_game.gb'; 
+        
+        // FIXED: Pointed to the official stable EmulatorJS CDN data files
         window.EJS_pathtodata = 'https://emulatorjs.org';
     </script>
-    <script src="https://emulatorjs.org"></script>
+    
+    <!-- FIXED: Pointed to the official stable loader script -->
+    <script src="https://emulatorjs.orgloader.js"></script>
 </body>
 </html>
