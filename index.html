@@ -17,39 +17,65 @@
             align-items: center; 
             justify-content: center;
             overflow: hidden;
-            font-family: sans-serif;
+            font-family: monospace;
         }
-        #canvas { 
-            max-width: 100vw; 
-            max-height: 70vh; 
-            box-shadow: 0 0 20px rgba(255,255,255,0.1);
+        #screen-wrapper {
+            position: relative;
+            width: 320px;
+            height: 288px;
+            background: #111;
+            border: 6px solid #333;
+            border-radius: 8px;
         }
-        .instructions {
-            color: #888;
-            font-size: 14px;
+        canvas { 
+            width: 100%;
+            height: 100%;
+            image-rendering: pixelated;
+        }
+        .status {
+            color: #4af626;
             margin-top: 15px;
-            text-align: center;
+            font-size: 14px;
+            text-shadow: 0 0 5px #4af626;
         }
     </style>
-    <!-- FIXED: Added the complete, valid script link to load the library -->
-    <script src="https://cdn.jsdelivr.net/npm/nostalgist"></script>
+    <!-- Loads a specialized, self-contained mobile web emulator engine -->
+    <script src="https://jsdelivr.net"></script>
 </head>
 <body>
 
-    <canvas id="canvas"></canvas>
-    <div class="instructions">Starforce Mission Control</div>
+    <div id="screen-wrapper">
+        <canvas id="game-screen"></canvas>
+    </div>
+    <div id="status-text" class="status">LAUNCHING STARFORCE SYSTEM...</div>
 
     <script>
-        // Wait for the library to be completely available in the browser window
-        window.addEventListener('DOMContentLoaded', () => {
-            Nostalgist.gb({
-                rom: 'starforce_game.gb',
-                element: document.getElementById('canvas')
-            }).then(game => {
-                console.log('Game booted successfully!');
-            }).catch(err => {
-                alert('Error loading game: ' + err.message);
-            });
+        document.addEventListener("DOMContentLoaded", () => {
+            const canvas = document.getElementById('game-screen');
+            const status = document.getElementById('status-text');
+            
+            // Initialize the dedicated mobile Game Boy player layer
+            const player = new GBLivePlayer(canvas);
+            
+            status.innerText = "FETCHING ROM FILE...";
+            
+            // Explicitly fetch your file path directly from your GitHub repo root
+            fetch('starforce_game.gb')
+                .then(response => {
+                    if (!response.ok) throw new Error("File not found (404). Check spelling!");
+                    return response.arrayBuffer();
+                })
+                .then(buffer => {
+                    status.innerText = "BOOTING ROM ENGINE...";
+                    player.loadROM(new Uint8Array(buffer));
+                    player.play();
+                    status.innerText = "SYSTEM ACTIVE: STARFORCE RUNNING";
+                })
+                .catch(err => {
+                    status.style.color = "#ff3333";
+                    status.style.textShadow = "0 0 5px #ff3333";
+                    status.innerText = "ERROR: " + err.message.toUpperCase();
+                });
         });
     </script>
 </body>
