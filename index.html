@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Starforce Mission Control</title>
+    <style>
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: #000; }
+        #game-container { width: 100vw; height: 100vh; }
+    </style>
+</head>
+<body>
+    <div id="game-container"></div>
+    <script>
+        window.EJS_player = '#game-container';
+        window.EJS_gameUrl = 'starforce.gb'; // Points to your ROM
+        window.EJS_core = 'gb';
+        window.EJS_pathtodata = 'https://emulatorjs.org';
+    </script>
+    <script src="https://emulatorjs.org"></script>
+</body>
+</html>
