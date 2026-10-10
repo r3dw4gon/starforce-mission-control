@@ -30,8 +30,8 @@
             text-align: center;
         }
     </style>
-    <!-- Loads a clean, modern web emulator script -->
-    <script src="https://jsdelivr.net"></script>
+    <!-- FIXED: Added the complete, valid script link to load the library -->
+    <script src="https://cdn.jsdelivr.net/npm/nostalgist"></script>
 </head>
 <body>
 
@@ -39,16 +39,19 @@
     <div class="instructions">Starforce Mission Control</div>
 
     <script>
-        // Directly boots your exact ROM file into the canvas element
-        Nostalgist.gb({
-            rom: 'starforce_game.gb',
-            element: document.getElementById('canvas')
-        }).then(game => {
-            console.log('Game booted successfully!');
-        }).catch(err => {
-            alert('Error loading game: ' + err.message);
+        // Wait for the library to be completely available in the browser window
+        window.addEventListener('DOMContentLoaded', () => {
+            Nostalgist.gb({
+                rom: 'starforce_game.gb',
+                element: document.getElementById('canvas')
+            }).then(game => {
+                console.log('Game booted successfully!');
+            }).catch(err => {
+                alert('Error loading game: ' + err.message);
+            });
         });
     </script>
 </body>
 </html>
+
 
